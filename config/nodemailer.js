@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-export const sendMail= async ({ from, to, subject, text, html}) => {
+export const sendMail= async ({ from, to, subject, text, htmlTo,htmlFrom}) => {
         let transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
             port: process.env.SMTP_PORT,
@@ -16,6 +16,13 @@ export const sendMail= async ({ from, to, subject, text, html}) => {
         to: to, // list of receivers
         subject: subject, // Subject line
         text: text, // plain text body
-        html: html, // html body
+        html: htmlTo, // html body
+    });
+    let info1 = await transporter.sendMail({
+        from: `cloudShare <${from}>`, // sender address
+        to: from, // list of receivers
+        subject: subject, // Subject line
+        text: text, // plain text body
+        html: htmlFrom, // html body
     });
 }
